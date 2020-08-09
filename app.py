@@ -23,7 +23,7 @@ def predict(model, input_df):
     predictions = model.predict(input_df)
     # predictions = predictions_df['Label'][0]
     #get rid of unfeasible predictions
-    predictions[predictions<0] = 0
+    predictions[predictions<0] = 0.00
     return predictions
 
 def run():
@@ -44,7 +44,9 @@ def run():
     st.sidebar.image(image_hospital)
 
     st.title("Insurance Charges Prediction App")
-
+####################
+#Online
+####################
     if add_selectbox == 'Online':
 
         age = st.number_input('Age', min_value=1, max_value=100, value=25)
@@ -68,6 +70,8 @@ def run():
 
         st.success('The output is {}'.format(output))
 ####################
+#BATCH
+####################
 
     if add_selectbox == 'Batch':
         try:
@@ -80,8 +84,10 @@ def run():
 #         if file_upload is not None:
 #         try:
             data = pd.read_csv(file_upload)
-            # predictions = predict_model(estimator=model,data=data)
-            predictions = model.predict(data)
+            ## predictions = predict_model(estimator=model,data=data)
+            # predictions = model.predict(data)
+            # predictions[predictions<0] = 0.
+            predictions = predict(model=model, input_df=data)
             st.write(predictions)
 #         else:
 #             st.write("else")
