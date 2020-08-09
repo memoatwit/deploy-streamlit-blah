@@ -22,6 +22,8 @@ def predict(model, input_df):
     # predictions_df = predict_model(estimator=model, data=input_df)
     predictions = model.predict(input_df)
     # predictions = predictions_df['Label'][0]
+    #get rid of unfeasible predictions
+    predictions[predictions<0] = 0
     return predictions
 
 def run():
@@ -61,6 +63,7 @@ def run():
         input_df = pd.DataFrame([input_dict])
         if st.button("Predict"):
             output = predict(model=model, input_df=input_df)[0]
+            output = 0 if output<0  else output 
             output = '$' + str(round(output,2))
 
         st.success('The output is {}'.format(output))
